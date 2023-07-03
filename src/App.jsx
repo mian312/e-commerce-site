@@ -5,6 +5,8 @@ import {
   Route,
 } from "react-router-dom";
 import Navbar from './components/Navbar'
+import Body from './components/Home/Body';
+import Deals from './components/Home/Deals';
 
 function App() {
 
@@ -13,15 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navbar />}>
-          {/* <Route path="/" element={<div style={{ minHeight: '120px' }}>
-              <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                <div class="card card-body" style={{ width: '300px' }}>
-                  This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
-                </div>
-              </div>
-            </div>}/> */}
-            
-
+            <Route path='/' element={<Body />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -5,6 +5,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Navbar() {
     const [showPopup, setShowPopup] = useState(false);
+    const [showCart, setShowCart] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const formRef = useRef(null);
 
@@ -63,29 +64,33 @@ function Navbar() {
                                 <li><Link className="dropdown-item" to='/'>Login</Link></li>
                             </ul>
                         </li>
-                        <li className="nav-item px-4" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" >
+                        <li className="nav-item px-4" onClick={() => setShowCart(true)}
+                            data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" >
                             <Link className="nav-link position-relative">
                                 <i className="bi bi-cart4"></i> Cart
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">+99</span>
+                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">+99</span>
                             </Link>
                         </li>
                     </ul>
                 </div>
             </nav>
-
             {showPopup && (
-                <div className="card card-body" id='collapseExample'>
+                <div className="card card-body" id="collapseExample" style={{ position: 'absolute', zIndex: 9999, left: '25%', right: '25%' }}>
                     <p>{searchValue}</p>
                 </div>
             )}
 
-            <div style={{ minHeight: '120px' }}>
-                <div class="collapse collapse-horizontal" id="collapseWidthExample">
-                    <div class="card card-body position-absolute end-0" style={{ width: '300px' }}>
+
+
+
+            {showCart && (
+                <div className="collapse collapse-horizontal position-absolute" id="collapseWidthExample" style={{ zIndex: 9999 }}>
+                    <div className="card card-body float-start" style={{ width: '100%' }}>
                         This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
                     </div>
                 </div>
-            </div>
+            )}
+            <Outlet />
         </>
     )
 }
