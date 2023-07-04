@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Navbar from './components/Navbar'
 import Body from './components/Home/Body';
-import Deals from './components/Home/Deals';
+import Product from './components/ProductScreen/Product';
 
 function App() {
 
@@ -16,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route path='/' element={<Body />} />
+            <Route path='/product/:productId' element={<Product />} />
           </Route>
         </Routes>
       </BrowserRouter>
