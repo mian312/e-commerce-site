@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Deals from './Deals'
-import ProductGroup from '../ProductScreen/ProductGroup';
+import ProductGroup from '../ProductScreen/MultipleProduct/ProductGroup';
 import Footer from './Footer';
 import Loader from '../Loader';
 
 import BasicData from '../../Data/BasicData';
+import { Helmet } from 'react-helmet-async';
 
 
 
@@ -30,6 +31,9 @@ function Body() {
 
     return (
         <div className='bg-body-secondary'>
+            <Helmet>
+<title>E-amazon</title>
+            </Helmet>
             <div style={{ top: "0", left: "0", width: '100%', height: '50vh' }}>
                 <Deals />
             </div>
@@ -38,8 +42,8 @@ function Body() {
                     : <div className="row">
                         {
                             products.map((product) => {
-                                return <div className='col'>
-                                    <ProductGroup key={product.id} product={product} />
+                                return <div key={product.id} className='col'>
+                                    <ProductGroup product={product} />
                                 </div>
                             })
                         }

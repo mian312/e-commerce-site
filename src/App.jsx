@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Navbar from './components/Navbar'
 import Body from './components/Home/Body';
-import Product from './components/ProductScreen/Product';
+import Product from './components/ProductScreen/SingleProduct/Product';
 
 function App() {
 
