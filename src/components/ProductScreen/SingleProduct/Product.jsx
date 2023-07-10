@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import getProduct from '../../../Data/Product';
 import { useNavigate, useParams } from 'react-router-dom'
 import ProductImages from './ProductComponent/ProductImages';
@@ -6,6 +6,8 @@ import ProductDetails from './ProductComponent/ProductDetails';
 import StarRating from '../../StarRating';
 import { Helmet } from 'react-helmet-async';
 import Loader from '../../Loader';
+import { Store } from '../../../Store';
+import axios from 'axios';
 
 function Product() {
   const params = useParams();
@@ -16,11 +18,11 @@ function Product() {
   const [product, setProduct] = useState([]);
 
   function productPrice(price, discount) {
-    let discountAmount = price * (discount / 100);
-    let discountedPrice = price - discountAmount;
-    let totalPrice = discountedPrice.toFixed(2);
+    let originalPrice = price / (1 - discount / 100);
+    let totalPrice = originalPrice.toFixed(2);
     return totalPrice;
   }
+  
 
 
   const options = Array.from({ length: product.stock }, (_, index) => (
@@ -47,7 +49,19 @@ function Product() {
     showProduct();
   }, [productId, setProduct]);
 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x.id === product.id)
+    const quantity = existItem ? existItem.quantity + 1 : 1
+    const { data } = await axios.get(`https://dummyjson.com/products/${product.id}`)
+    if (data.stock < quantity) {
+      alert('Product is out of stock');
+      return;
+    }
 
+    ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } })
+  }
 
   return (
     <>
@@ -63,13 +77,13 @@ function Product() {
             <ProductImages Images={product.images} />
           </div>
           <div className='d-flex my-2'>
-            <h3 className='text-dark'> {productPrice(product.price, product.discountPercentage)}$ </h3>
+            <h3 className='text-dark'> {product.price}$ </h3>
             <div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
             <h3 className='text-danger'> -{product.discountPercentage}% </h3>
           </div>
           <p>
             Total Price: &nbsp;
-            <strike className='text-dark'>{product.price}</strike> $
+            <strike className='text-dark'>{productPrice(product.price, product.discountPercentage)}</strike> $
           </p>
 
           {
@@ -107,7 +121,7 @@ function Product() {
               ? <button className="btn btn-warning rounded-pill" type="button">Buy Now</button>
               : <div></div>
             }
-            <button className="btn btn-danger rounded-pill" type="button">Add to Cart</button>
+            <button onClick={addToCartHandler} className="btn btn-danger rounded-pill" type="button">Add to Cart</button>
           </div>
 
         </div>

@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import Cart from './Cart/Cart';
+import { Store } from '../Store';
 
 
 function Navbar() {
     const [showPopup, setShowPopup] = useState(false);
-    const [showCart, setShowCart] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const formRef = useRef(null);
 
@@ -30,9 +31,12 @@ function Navbar() {
         };
     }, []);
 
+    const { state } = useContext(Store);
+    const { cart } = state;
+
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
                 <div className="container">
                     <Link className="navbar-brand fs-3" to='/'>E-Commerce</Link>
                     <form className="container d-flex" role="search">
@@ -64,11 +68,13 @@ function Navbar() {
                                 <li><Link className="dropdown-item" to='/'>Login</Link></li>
                             </ul>
                         </li>
-                        <li className="nav-item px-4" onClick={() => setShowCart(true)}
-                            data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" >
+                        <li className="nav-item px-4"
+                            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" >
                             <Link className="nav-link position-relative">
-                                <i className="bi bi-cart4"></i> Cart
-                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">+99</span>
+                                <i className="bi bi-cart4" ></i> Cart
+                                {cart.cartItems.length > 0 && (
+                                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">{cart.cartItems.length}</span>
+                                )}
                             </Link>
                         </li>
                     </ul>
@@ -83,13 +89,18 @@ function Navbar() {
 
 
 
-            {showCart && (
-                <div className="collapse collapse-horizontal position-absolute" id="collapseWidthExample" style={{ zIndex: 9999 }}>
-                    <div className="card card-body float-start" style={{ width: '100%' }}>
-                        This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+            {
+                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style={{width: '120vh'}}>
+                    <div className="offcanvas-header">
+                        <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div className="offcanvas-body">
+                        <p>Try scrolling the rest of the page to see this option in action.</p>
+                        <Cart />
                     </div>
                 </div>
-            )}
+            }
             <Outlet />
         </>
     )
