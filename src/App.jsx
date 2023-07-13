@@ -7,6 +7,8 @@ import {
 import Navbar from './components/Navbar'
 import Body from './components/Home/Body';
 import Product from './components/ProductScreen/SingleProduct/Product';
+import Login from './components/Auth/Login';
+import SignUp from './components/Auth/Signup';
 
 function App() {
 
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Navbar />}>
             <Route path='/' element={<Body />} />
             <Route path='/product/:productId' element={<Product />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
           </Route>
         </Routes>
       </BrowserRouter>
