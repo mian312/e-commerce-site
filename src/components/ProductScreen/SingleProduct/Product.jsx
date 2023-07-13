@@ -52,9 +52,9 @@ function Product() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart } = state;
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x.id === product.id)
+    const existItem = cart.cartItems.find((x) => x._id === product._id)
     const quantity = existItem ? existItem.quantity + 1 : 1
-    const { data } = await axios.get(`https://dummyjson.com/products/${product.id}`)
+    const { data } = await axios.get(`http://localhost:5000/products/${product._id}`)
     if (data.stock < quantity) {
       alert('Product is out of stock');
       return;

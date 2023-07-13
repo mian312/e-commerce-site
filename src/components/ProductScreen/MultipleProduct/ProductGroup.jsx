@@ -5,15 +5,14 @@ function ProductGroup({ product }) {
   const descriptionWords = product.description.split(' ').slice(0, 11);
   const limitedDescription = descriptionWords.join(' ')
 
-
   return (
     <div className="card m-2" style={{ width: '20rem', height: '20rem' }}>
-      <Link to={`/product/${product.id}`}>
+      <Link to={`/product/${product._id}`}>
         <img src={product.thumbnail} alt={product.brand}
           className="card-img-top img-thumbnail"
           style={{ width: '20rem', height: '12rem' }} />
       </Link>
-      <Link to={`/product/${product.id}`} className='link-underline-light'>
+      <Link to={`/product/${product._id}`} className='link-underline-light'>
         <div className="card-body">
           <h5 className="card-title">{product.title}</h5>
           <p className="card-text text-body-secondary">{limitedDescription}...</p>

@@ -1,10 +1,11 @@
 async function BasicData() {
   try {
-    const url = 'https://dummyjson.com/products?limit=45';
+    const url = 'http://localhost:5000/products';
 
     const response = await fetch(url);
-    const data = await response.json();
-    const products = await data.products;
+    // const data = await response.json();
+    // const products = await data.products;
+    const products = await response.json();
 
     // Group products by category
     const productsByCategory = {};
