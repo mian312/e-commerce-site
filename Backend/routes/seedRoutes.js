@@ -1,13 +1,27 @@
 import express from 'express'
 import Product from '../module/productModule.js';
 import data from '../data.js';
+import User from '../module/userModule.js';
 
 const seedRouter = express.Router();
 
 seedRouter.get('/', async (req, res) => {
-    await Product.removeAllListeners({});
+  try {
+    // Remove existing products
+    await Product.updateMany({})
+    // Insert new products
     const createdProducts = await Product.insertMany(data.products);
-    res.send({ createdProducts });
+
+    // Remove existing users
+    await User.updateMany({});
+    // Insert new users
+    const createdUsers = await User.insertMany(data.users);
+
+    res.send({ createdProducts, createdUsers });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 });
+
 
 export default seedRouter;

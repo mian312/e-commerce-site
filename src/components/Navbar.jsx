@@ -1,14 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'react-toastify/dist/ReactToastify.css';
 import Cart from './Cart/Cart';
 import { Store } from '../Store';
+import { ToastContainer } from 'react-toastify';
 
 
 function Navbar() {
     const [showPopup, setShowPopup] = useState(false);
     const [searchValue, setSearchValue] = useState('');
+    const [user, setUser] = useState([]);
     const formRef = useRef(null);
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { cart, userInfo } = state;
 
     const handleInputChange = (event) => {
         setSearchValue(event.target.value);
@@ -18,6 +23,11 @@ function Navbar() {
         event.preventDefault();
         setShowPopup(true);
     };
+
+    const logoutHandler = () => {
+        ctxDispatch({ type: "USER_LOGOUT" });
+        localStorage.removeItem('userInfo');
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -31,12 +41,17 @@ function Navbar() {
         };
     }, []);
 
-    const { state } = useContext(Store);
-    const { cart } = state;
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('userInfo'))
+        setUser(user)
+        console.info(user)
+    }, [userInfo]);
+
 
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+                <ToastContainer position='top-center'/>
                 <div className="container">
                     <Link className="navbar-brand fs-3" to='/'>E-Commerce</Link>
                     <form className="container d-flex" role="search">
@@ -58,14 +73,21 @@ function Navbar() {
                 <div className="collapse navbar-collapse mx-1" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item dropdown my-2 mx-4">
-                            <Link className="nav-link dropdown-toggle" to='/' role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Your Account
-                            </Link>
+                            {user ? (
+
+                                <Link className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {user.name}
+                                </Link>
+                            ) : (
+                                <Link className="nav-link" to='/login'>
+                                    Login
+                                </Link>
+                            )}
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" to='/'>Your Orders</Link></li>
-                                <li><Link className="dropdown-item" to='/'>Buy Again</Link></li>
+                                <li><Link className="dropdown-item" >Your Account</Link></li>
+                                <li><Link className="dropdown-item" >Your Orders</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item" to='/'>Login</Link></li>
+                                <li><button className="dropdown-item" onClick={logoutHandler}>LogOut</button></li>
                             </ul>
                         </li>
                         <li className="nav-item px-4"
@@ -90,7 +112,7 @@ function Navbar() {
 
 
             {
-                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style={{width: '120vh'}}>
+                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style={{ width: '120vh' }}>
                     <div className="offcanvas-header">
                         <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Offcanvas with body scrolling</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

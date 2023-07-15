@@ -1,11 +1,17 @@
 import express from 'express';
 import Product from '../module/productModule.js';
+import data from '../data.js';
 
 const productRouter = express.Router();
 
 productRouter.get('/', async (req, res) => {
-    const products = await Product.find();
-    res.send(products)
+    try {
+        const products = await Product.find();
+        res.send(products)
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: 'Internal server error' });
+    }
 });
 
 productRouter.get('/:id', async (req, res) => {

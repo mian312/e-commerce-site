@@ -4,6 +4,7 @@ import data from './data.js';
 import mongoose from 'mongoose';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
+import userRouter from './routes/userRoutes.js';
 
 const app = express();
 
@@ -24,17 +25,18 @@ mongoose.connect(process.env.MONGODB_URI)
     });
 
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use('/seed', seedRouter);
-
 app.use('/products', productRouter);
-
+app.use('/users', userRouter);
 
 
 
 // Error handler middleware
 app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: err.message });
 });
 
 
