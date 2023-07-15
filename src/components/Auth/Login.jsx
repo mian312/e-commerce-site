@@ -17,7 +17,7 @@ export default function Login() {
 
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : '/';
+  const redirect = redirectInUrl ? redirectInUrl : "/";
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -32,7 +32,7 @@ export default function Login() {
       })
       ctxDispatch({ type: 'USER_LOGIN', payload: data })
       localStorage.setItem('userInfo', JSON.stringify(data))
-      navigate(redirect)
+      navigate(redirectInUrl || '/')
     } catch (error) {
       console.error(error)
       toast.error(getError(error));
@@ -40,10 +40,10 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (!userInfo && redirect) {
-      navigate(redirect);
+    if (userInfo) {
+      navigate(redirectInUrl);
     }
-  }, [userInfo, redirect])
+  }, [userInfo])
 
   return (
     <div style={{ height: '100%' }} className="d-flex align-items-center justify-content-center">
