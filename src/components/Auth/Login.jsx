@@ -46,7 +46,7 @@ export default function Login() {
   }, [userInfo, redirectInUrl, navigate])
 
   return (
-    <div style={{ height: '100%' }} className="d-flex align-items-center justify-content-center">
+    <div style={{ height: '100%' }} className="d-flex align-items-center justify-content-center my-5">
       <div >
         <div className="card bg-light opacity-75 shadow-lg border rounded-lg mx-auto p-2">
           <div className="card bg-light m-2 p-2 text-center">
@@ -87,7 +87,7 @@ export default function Login() {
             <Link className="d-flex justify-content-center p-2">Forgot Password</Link>
           </div>
         </div>
-        <span className="m-4 p-4">Don't have an account? <Link to={`/signup/redirect=${redirect}`}>Register</Link> now.</span>
+        <span className="m-4 p-4">Don't have an account? <Link to={`/signup?redirect=${redirect}`}>Register</Link> now.</span>
       </div>
       <div className="continer">
       </div>

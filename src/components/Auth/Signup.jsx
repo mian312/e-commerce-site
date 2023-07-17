@@ -1,120 +1,120 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react'
+// import 'bootstrap/dist/css/bootstrap.min.css'
+import { Store } from '../../Store';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { getError } from '../../utils'
+import { toast } from 'react-toastify';
 
-
-
-function SignUp() {
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [confirmPassword, setConfirmPassword] = useState();
-    const [statusMessage, setStatusMessage] = useState([]);
-    const [name, setName] = useState(null);
+export default function Signup() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordShown, setPasswordShown] = useState(false);
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { userInfo } = state;
     const navigate = useNavigate();
+
+    const { search } = useLocation();
+    const redirectInUrl = new URLSearchParams(search).get('redirect');
+    const redirect = redirectInUrl ? redirectInUrl : "/";
 
     const togglePassword = () => {
         setPasswordShown(!passwordShown);
     };
 
-    const register = (e) => {
-        e.preventDefault();
-        const newErrors = [];
-
-        if (!name) {
-            newErrors.name = "Please enter name";
-        }
-        if (!email) {
-            newErrors.email = "Please enter email";
-        }
-        if (!password) {
-            newErrors.password = "Please enter password";
-        }
-        if (!confirmPassword) {
-            newErrors.confirmPassword = "Confirm Password does not match";
-        }
-        if (Object.keys(newErrors).length > 0) {
-            setStatusMessage(newErrors);
-        }
-        else {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (password !== confirmPassword) {
+            toast.error('Please Confirm the Password');
             return;
         }
-    };
+        try {
+            const { data } = await axios.post('http://localhost:5000/users/signup', {
+                name,
+                email,
+                password,
+            })
+            ctxDispatch({ type: 'USER_LOGIN', payload: data })
+            localStorage.setItem('userInfo', JSON.stringify(data))
+            navigate(redirectInUrl || '/')
+        } catch (error) {
+            console.error(error)
+            toast.error(getError(error));
+        }
+    }
 
+    useEffect(() => {
+        if (userInfo && redirectInUrl) {
+            navigate(redirect);
+        }
+    }, [userInfo, redirectInUrl, navigate])
 
     return (
-        <div className="card w-75 opacity-75 bg-light shadow-lg border-0 rounded-lg m-auto my-5">
-            <div className="row d-flex justify-content-center align-items-center">
-                <div className="col-md-6">
-                    <form onSubmit={register}>
-                        <div className="form-group m-3">
-                            <label htmlFor="name">Full Name</label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="form-control"
-                            />
-                            {statusMessage.name &&
-                                <p className="text-danger">{statusMessage.name}</p>
-                            }
-                        </div>
-                        <div className="form-group m-3">
-                            <label htmlFor="email">Email address</label>
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="form-control"
-                            />
-                            {statusMessage.email &&
-                                <p className="text-danger">{statusMessage.email}</p>
-                            }
-                        </div>
-                        <div className="form-group m-3">
-                            <label htmlFor="password">Password</label>
-                            <div className="input-group">
-                                <input
-                                    type={passwordShown ? "text" : "password"}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="form-control"
-                                />
-                                <i style={{ cursor: 'pointer' }} className="input-group-text"
-                                    onClick={togglePassword}>
-                                    {!passwordShown
-                                        ? <i class="bi bi-eye-slash-fill"></i>
-                                        : <i class="bi bi-eye-fill"></i>
-                                    }
-                                </i>
+        <div style={{ height: '100%' }} className="d-flex align-items-center justify-content-center my-5">
+            <div >
+                <div className="card bg-light opacity-75 shadow-lg border rounded-lg mx-auto p-2">
+                    <div className="card bg-light m-2 p-2 text-center">
+                        Signup Form
+                    </div>
+                    <div className="card bg-light bg-transparent-body">
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group m-2">
+                                <label htmlFor="email">full Name</label>
+                                <input type="text" className="form-control" id="text" aria-describedby="textHelp" placeholder="Enter your name" required value={name} onChange={(event) => setName(event.target.value)} />
+                                {/* {name.length < 0 &&
+                                    <p className="text-danger">Please enter name</p>
+                                } */}
                             </div>
-                            {statusMessage.password &&
-                                <p className="text-danger">{statusMessage.password}</p>
-                            }
-                        </div>
-                        <div className="form-group m-3">
-                            <label htmlFor="confirm-password">Confirm Password</label>
-                            <input
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                className="form-control"
-                            />
-                            {statusMessage.confirmPassword &&
-                                <p className="text-danger">{statusMessage.confirmPassword}</p>
-                            }
-                        </div>
-                        <div className="d-flex justify-content-center">
-                            <button type="submit" className="btn btn-primary m-3 center"
-                            >Sign Up</button>
-                        </div>
-                        <div className="d-flex align-items-center justify-content-center">
-                            <span className="my-4">Already have an account? <Link className="text-decoration-none">Login</Link> now.</span>
-                        </div>
-                    </form>
+                            <div className="form-group m-2">
+                                <label htmlFor="email">Email address</label>
+                                <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required value={email} onChange={(event) => setEmail(event.target.value)} />
+                                {email.length < 0 &&
+                                    <p className="text-danger">Please enter email</p>
+                                }
+                            </div>
+                            <div className="form-group m-2">
+                                <label htmlFor="password">Password</label>
+                                <div className="input-group">
+                                    <input
+                                        type={passwordShown ? "text" : "password"}
+                                        className="form-control" id="password"
+                                        placeholder="Password"
+                                        value={password} required
+                                        onChange={(event) => setPassword(event.target.value)} />
+                                    <i style={{ cursor: 'pointer' }} className="input-group-text"
+                                        onClick={togglePassword}>
+                                        {!passwordShown
+                                            ? <i className="bi bi-eye-slash-fill"></i>
+                                            : <i className="bi bi-eye-fill"></i>
+                                        }
+                                    </i>
+                                </div>
+                            </div>
+                            <div className="form-group m-2">
+                                <label htmlFor="password">Confirm Password</label>
+                                <div className="input-group">
+                                    <input
+                                        type="password"
+                                        className="form-control" id="password"
+                                        placeholder="Password"
+                                        value={confirmPassword} required
+                                        onChange={(event) => setConfirmPassword(event.target.value)} />
+                                </div>
+                            </div>
+                            <div className='d-flex justify-content-center'>
+                                <button type="submit" className="btn btn-primary m-2"
+                                >Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+                <span className="m-4 p-4">Already have an account? <Link to={`/login?redirect=${redirect}`}>Login</Link> now.</span>
+            </div>
+            <div className="continer">
             </div>
         </div>
-    );
+    )
 }
-export default SignUp;
