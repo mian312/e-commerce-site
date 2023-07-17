@@ -11,7 +11,7 @@ function Cart() {
   } = state;
 
   const checkOutHandler = () => {
-    navigate('/login?redirect=/shipping');
+    navigate('/login?redirect=/shipping/0');
   }
 
   return (

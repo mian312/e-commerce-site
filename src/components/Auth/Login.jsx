@@ -40,10 +40,10 @@ export default function Login() {
   }
 
   useEffect(() => {
-    if (userInfo) {
-      navigate(redirectInUrl);
+    if (userInfo && redirectInUrl) {
+      navigate(redirect);
     }
-  }, [userInfo])
+  }, [userInfo, redirectInUrl, navigate])
 
   return (
     <div style={{ height: '100%' }} className="d-flex align-items-center justify-content-center">
