@@ -28,6 +28,7 @@ function Navbar() {
         ctxDispatch({ type: "USER_LOGOUT" });
         localStorage.removeItem('userInfo');
         localStorage.removeItem('shippingAddress');
+        localStorage.removeItem('paymentMethod');
     }
 
     useEffect(() => {

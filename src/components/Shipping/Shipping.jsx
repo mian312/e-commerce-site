@@ -3,14 +3,12 @@ import { Stepper } from 'react-form-stepper';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Store } from '../../Store';
 import ShippingDetails from './ShippingComponents/ShippingDetails';
-import { Helmet } from 'react-helmet-async';
+import ProductPayment from './ShippingComponents/ProductPayment';
+import Confirmation from './ShippingComponents/Confirmation';
 function CustomStepper(props) {
   return (
     <Stepper
       {...props}
-      // activeColor="#ffd813"
-      // defaultColor="#eee"
-      // completeColor="#ffbd13"
       activetitlecolor="#fff"
       completetitlecolor="#eee"
       defaulttitlecolor="#bbb"
@@ -21,34 +19,43 @@ function CustomStepper(props) {
 
 function Shipping() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
-  const [activeStep, setActiveStep] = useState(0);
+  const { cart: { shippingAddress, cartItems }, userInfo } = state;
   const [user, setUser] = useState([]);
+  const [items, setItems] = useState([]);
+  const [shipping, setShipping] = useState([]);
   const navigate = useNavigate();
   const params = useParams();
 
   function getSectionComponent() {
     switch (params.step) {
       case '0': return <ShippingDetails user={user} />;
-      case '1': return '<ProductPayment/>';
-      case '2': return '<Confirmation/>';
+      case '1': return <ProductPayment />;
+      case '2': return <Confirmation items={items} />;
+      case '3': return '<ProductPayment />';
       default: return null;
     }
   }
 
   const steps = [
     { title: 'Shipping details' },
+    { title: 'Order Preview' },
     { title: 'Product Payment' },
-    { title: 'Booking confirmation' },
+    // { title: 'Complete payment' },
   ];
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('userInfo'))
-    setUser(user)
+    const User = JSON.parse(localStorage.getItem('userInfo'))
+    const Items = JSON.parse(localStorage.getItem('cartItems'))
+    const Shipping = JSON.parse(localStorage.getItem('shippingAddress'))
+
+    setUser(User)
+    setItems(Items)
+    setShipping(Shipping)
+
     if (!userInfo) {
       navigate('/login?redirect=/shipping/0');
     }
-  }, [userInfo, navigate]);
+  }, [userInfo, cartItems, shippingAddress, navigate]);
 
   return (
     <div className="container">
