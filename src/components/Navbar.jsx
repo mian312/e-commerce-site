@@ -47,7 +47,6 @@ function Navbar() {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userInfo'))
         setUser(user)
-        console.info(user)
     }, [userInfo]);
 
 
@@ -87,7 +86,7 @@ function Navbar() {
                                 </Link>
                             )}
                             <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" >Your Account</Link></li>
+                                <li><Link to='/profile' className="dropdown-item" >Your Account</Link></li>
                                 <li><Link to='/orderhistory' className="dropdown-item" >Your Orders</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
                                 <li><button className="dropdown-item" onClick={logoutHandler}>LogOut</button></li>

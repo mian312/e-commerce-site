@@ -12,6 +12,8 @@ import SignUp from './components/Auth/Signup';
 import Shipping from './components/Shipping/Shipping';
 import NewOrder from './components/Orders/NewOrder';
 import OrderHistory from './components/Orders/OrderHistory';
+import Profile from './components/Profile/Profile';
+import EditProfile from './components/Profile/EditProfile';
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
             <Route path='/shipping/:step' element={<Shipping />} />
             <Route path='/order/:id' element={<NewOrder />} />
             <Route path='/orderhistory' element={<OrderHistory />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/editprofile' element={<EditProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>
