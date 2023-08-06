@@ -4,7 +4,7 @@ export const Store = createContext();
 
 const initialState = {
     userInfo: localStorage.getItem('userInfo')
-        ? JSON.parse(localStorage.getItem('cartItems'))
+        ? JSON.parse(localStorage.getItem('userInfo'))
         : [],
     cart: {
         shippingAddress: localStorage.getItem('shippingAddress')
