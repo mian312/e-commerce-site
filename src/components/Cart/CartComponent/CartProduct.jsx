@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import getProduct from '../../../Data/Product';
 import axios from 'axios';
 import { Store } from '../../../Store';
 
@@ -14,11 +15,7 @@ function CartProduct({ item }) {
   };
 
   const updateCartHandler = async (item, quantity) => {
-    const { data } = await axios.get(`http://localhost:5000/products/${item._id}`);
-    if (data.stock < quantity) {
-      alert('Product is out of stock');
-      return;
-    }
+    const { data } = await getProduct(item._id);
 
     ctxDispatch({
       type: 'CART_ADD_ITEM',
