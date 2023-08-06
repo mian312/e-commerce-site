@@ -7,7 +7,6 @@ import StarRating from '../../StarRating';
 import { Helmet } from 'react-helmet-async';
 import Loader from '../../Loader';
 import { Store } from '../../../Store';
-import axios from 'axios';
 
 function Product() {
   const params = useParams();
@@ -54,11 +53,11 @@ function Product() {
   const addToCartHandler = async () => {
     const existItem = cart.cartItems.find((x) => x._id === product._id)
     const quantity = existItem ? existItem.quantity + 1 : 1
-    const { data } = await axios.get(`http://localhost:5000/products/${product._id}`)
-    if (data.stock < quantity) {
-      alert('Product is out of stock');
-      return;
-    }
+    const { data } = await getProduct(product._id)
+    // if (data.stock < quantity) {
+    //   alert('Product is out of stock');
+    //   return;
+    // }
 
     ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } })
   }
