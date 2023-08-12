@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Link, Outlet } from 'react-router-dom';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Cart from './Cart/Cart';
@@ -9,19 +9,21 @@ import { ToastContainer } from 'react-toastify';
 
 function Navbar() {
     const [showPopup, setShowPopup] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
+    const [query, setQuery] = useState('');
     const [user, setUser] = useState([]);
     const formRef = useRef(null);
+    const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
 
     const handleInputChange = (event) => {
-        setSearchValue(event.target.value);
+        setQuery(event.target.value);
     };
 
     const handleSearchClick = (event) => {
         event.preventDefault();
-        setShowPopup(true);
+        navigate(`/search/query=${query}`)
+        setShowPopup(false);
     };
 
     const logoutHandler = () => {
@@ -34,7 +36,7 @@ function Navbar() {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (formRef.current && !formRef.current.contains(event.target)) {
-                setShowPopup(false);
+                setShowPopup(!showPopup);
             }
         };
         document.addEventListener('click', handleClickOutside);
@@ -53,10 +55,10 @@ function Navbar() {
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-                <ToastContainer position='top-center'/>
+                <ToastContainer position='top-center' limit={1}/>
                 <div className="container">
                     <Link className="navbar-brand fs-3" to='/'>E-Commerce</Link>
-                    <form className="container d-flex" role="search">
+                    <form className="container d-flex" role="search" onSubmit={handleSearchClick}>
                         <input className="form-control"
                             type="search"
                             placeholder="Search"
@@ -65,6 +67,7 @@ function Navbar() {
                                 handleInputChange(event);
                                 setShowPopup(true);
                             }}
+                            // onClick={handleSearchClick}
                             data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" />
                         {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
                     </form>
@@ -78,7 +81,7 @@ function Navbar() {
                             {user ? (
 
                                 <Link className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {user?.name}
+                                    {userInfo?.name || user?.name}
                                 </Link>
                             ) : (
                                 <Link className="nav-link" to='/login'>
@@ -93,7 +96,8 @@ function Navbar() {
                             </ul>
                         </li>
                         <li className="nav-item px-4"
-                            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" >
+                            type="button" data-bs-toggle="offcanvas" 
+                            data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" >
                             <Link className="nav-link position-relative">
                                 <i className="bi bi-cart4" ></i> Cart
                                 {cart.cartItems.length > 0 && (
@@ -105,8 +109,8 @@ function Navbar() {
                 </div>
             </nav>
             {showPopup && (
-                <div className="card card-body" id="collapseExample" style={{ position: 'absolute', zIndex: 9999, left: '25%', right: '25%' }}>
-                    <p>{searchValue}</p>
+                <div className="card card-body" style={{ position: 'absolute', zIndex: 9999, left: '25%', right: '25%' }}>
+                    <p>{query}</p>
                 </div>
             )}
 
@@ -114,7 +118,7 @@ function Navbar() {
 
 
             {
-                <div className="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabIndex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel" style={{ width: '120vh' }}>
+                <div className="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style={{ width: '120vh' }}>
                     <div className="offcanvas-header">
                         <h5 className="offcanvas-title" id="offcanvasScrollingLabel">Thankyou For Shopping</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
