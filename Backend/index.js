@@ -31,10 +31,10 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/seed', seedRouter);
-app.use('/products', productRouter);
-app.use('/users', userRouter);
-app.use('/order', orderRouter);
+app.use('/api/seed', seedRouter);
+app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
+app.use('/api/order', orderRouter);
 
 
 

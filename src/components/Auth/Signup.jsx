@@ -32,7 +32,7 @@ export default function Signup() {
             return;
         }
         try {
-            const { data } = await axios.post('http://localhost:5000/users/signup', {
+            const { data } = await axios.post('http://localhost:5000/api/users/signup', {
                 name,
                 email,
                 password,

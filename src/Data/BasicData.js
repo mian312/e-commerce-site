@@ -1,6 +1,6 @@
 async function BasicData() {
   try {
-    const url = 'http://localhost:5000/products';
+    const url = 'http://localhost:5000/api/products';
 
     const response = await fetch(url);
     // const data = await response.json();
