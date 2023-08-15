@@ -27,13 +27,13 @@ function Confirmation({ items }) {
         loading: false,
     });
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    const { cart, userInfo } = state;
+    const { cart, userInfo, now } = state;
     const [tax, setTax] = useState(0);
 
     const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
     cart.itemsPrice = round2(
         cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
-    ); 
+    );
     cart.taxPrice = round2(0.15 * cart.itemsPrice);
     cart.totalPrice = cart.itemsPrice + cart.taxPrice;
 
@@ -42,14 +42,23 @@ function Confirmation({ items }) {
             dispatch({ type: 'CREATE_REQUEST' });
             const { data } = await axios.post(
                 'http://localhost:5000/order',
-                {
-                    orderItems: cart.cartItems,
-                    shippingAddress: cart.shippingAddress,
-                    paymentMethod: cart.paymentMethod,
-                    itemsPrice: cart.itemsPrice,
-                    taxPrice: cart.taxPrice,
-                    totalPrice: cart.totalPrice,
-                },
+                localStorage.getItem('buyNow')
+                    ? {
+                        orderItems: now.items,
+                        shippingAddress: now.shippingAddress,
+                        paymentMethod: now.paymentMethod,
+                        itemsPrice: now.items[0].price,
+                        taxPrice: now.taxPrice || 0,
+                        totalPrice: now.items[0].price*now.items[0].quantity,
+                    }
+                    : {
+                        orderItems: cart.cartItems,
+                        shippingAddress: cart.shippingAddress,
+                        paymentMethod: cart.paymentMethod,
+                        itemsPrice: cart.itemsPrice,
+                        taxPrice: cart.taxPrice,
+                        totalPrice: cart.totalPrice,
+                    },
                 {
                     headers: {
                         authorization: `Bearer ${userInfo.token}`,
@@ -58,7 +67,9 @@ function Confirmation({ items }) {
             );
             ctxDispatch({ type: 'CART_CLEAR' });
             dispatch({ type: 'CREATE_SUCCESS' })
-            localStorage.removeItem('cartItems')
+            localStorage.getItem('buyNow')
+                ? localStorage.removeItem('buyNow')
+                : localStorage.removeItem('cartItems')
             navigate(`/order/${data.order._id}`)
         } catch (error) {
             dispatch({ type: 'CREATE_FAIL' })
@@ -68,10 +79,14 @@ function Confirmation({ items }) {
     }
 
     useEffect(() => {
-        setTax(cart.taxPrice)
+        localStorage.getItem('buyNow')
+            ? setTax(0)
+            : setTax(cart.taxPrice)
         if (!cart.paymentMethod) {
             navigate('/shipping/1')
         }
+        console.log("now\n", now)
+        console.log("cart\n", cart)
     })
     return (
         <div className="container">
@@ -138,7 +153,7 @@ function Confirmation({ items }) {
                         </tbody>
                     </table>
                     <button type="button" className="btn btn-success btn-lg btn-block float-end" onClick={placeOrderHandler}>
-                        Place Order <span className="glyphicon glyphicon-chevron-right">{loading && <Loader/>}</span>
+                        Place Order <span className="glyphicon glyphicon-chevron-right">{loading && <Loader />}</span>
                     </button>
                 </div>
             </div>

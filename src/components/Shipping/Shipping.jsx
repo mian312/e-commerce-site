@@ -31,7 +31,6 @@ function Shipping() {
       case '0': return <ShippingDetails user={user} />;
       case '1': return <ProductPayment />;
       case '2': return <Confirmation items={items} />;
-      case '3': return '<ProductPayment />';
       default: return null;
     }
   }
@@ -45,7 +44,9 @@ function Shipping() {
 
   useEffect(() => {
     const User = JSON.parse(localStorage.getItem('userInfo'))
-    const Items = JSON.parse(localStorage.getItem('cartItems'))
+    const Items = localStorage.getItem('buyNow')
+      ? JSON.parse(localStorage.getItem('buyNow'))
+      : JSON.parse(localStorage.getItem('cartItems'))
     const Shipping = JSON.parse(localStorage.getItem('shippingAddress'))
 
     setUser(User)

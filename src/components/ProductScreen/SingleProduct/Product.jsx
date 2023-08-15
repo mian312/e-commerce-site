@@ -15,13 +15,14 @@ function Product() {
 
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
+  const [productQuantity, setProductQuantity] = useState(1)
 
   function productPrice(price, discount) {
     let originalPrice = price / (1 - discount / 100);
     let totalPrice = originalPrice.toFixed(2);
     return totalPrice;
   }
-  
+
 
 
   const options = Array.from({ length: product.stock }, (_, index) => (
@@ -59,7 +60,19 @@ function Product() {
     //   return;
     // }
 
-    ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } })
+    ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: productQuantity } })
+  }
+
+  const buyNowProduct = () => {
+    navigate('/shipping/0')
+    localStorage.setItem('buyNow', JSON.stringify([{...product, quantity: productQuantity}]))
+  }
+
+  const inc = () => {
+    setProductQuantity( e => e+1 )
+  }
+  const dec = () => {
+    setProductQuantity( e => e-1 )
   }
 
   return (
@@ -85,11 +98,28 @@ function Product() {
             <strike className='text-dark'>{productPrice(product.price, product.discountPercentage)}</strike> $
           </p>
 
-          {
-            product.stock === 0
-              ? <h3 className='text-danger'>Out of stock</h3>
-              : <h3 className='text-success'>In Stock</h3>
-          }
+          {product.stock !== 0 ? (
+            <div className="d-inline-flex">
+              <button onClick={ dec }
+                disabled={productQuantity === 1}
+              >
+                <i className="bi bi-dash-lg"></i>
+              </button>
+              <div
+                className='border border-secondary text-center'
+                style={{ width: '10vh' }}
+              >
+                {productQuantity}
+              </div>
+              <button onClick={inc}
+                disabled={productQuantity === product.stock}
+              >
+                <i className="bi bi-plus"></i>
+              </button>
+            </div>
+          ) : (
+            <p className="d-inine-flex text-danger fw-bold">Out of Stock</p>
+          )}
 
           <div className="accordion accordion-flush" id="accordionFlushExample">
             <div className="accordion-item">
@@ -117,8 +147,8 @@ function Product() {
 
           <div className="d-grid gap-2 col-6 mx-auto mt-4">
             {product.stock !== 0
-              ? <button className="btn btn-warning rounded-pill" type="button">Buy Now</button>
-              : <div></div>
+              ? <button onClick={buyNowProduct} className="btn btn-warning rounded-pill" type="button">Buy Now</button>
+              : <button className="btn btn-warning rounded-pill" type="button" disabled>Product Out of Stock</button>
             }
             <button onClick={addToCartHandler} className="btn btn-danger rounded-pill" type="button">Add to Cart</button>
           </div>
