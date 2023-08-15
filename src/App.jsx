@@ -14,6 +14,7 @@ import NewOrder from './components/Orders/NewOrder';
 import OrderHistory from './components/Orders/OrderHistory';
 import Profile from './components/Profile/Profile';
 import EditProfile from './components/Profile/EditProfile';
+import Search from './components/SearchScreen/Search';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path='/orderhistory' element={<OrderHistory />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/editprofile' element={<EditProfile />} />
+            <Route path='/search' element={<Search />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -22,7 +22,7 @@ function Navbar() {
 
     const handleSearchClick = (event) => {
         event.preventDefault();
-        navigate(`/search/query=${query}`)
+        navigate(`/search?query=${query}`)
         setShowPopup(false);
     };
 
@@ -98,12 +98,12 @@ function Navbar() {
                         <li className="nav-item px-4"
                             type="button" data-bs-toggle="offcanvas" 
                             data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" >
-                            <Link className="nav-link position-relative">
+                            <li className="nav-link position-relative">
                                 <i className="bi bi-cart4" ></i> Cart
                                 {cart.cartItems.length > 0 && (
                                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">{cart.cartItems.length}</span>
                                 )}
-                            </Link>
+                            </li>
                         </li>
                     </ul>
                 </div>
