@@ -48,7 +48,7 @@ function Confirmation({ items }) {
                         shippingAddress: now.shippingAddress,
                         paymentMethod: now.paymentMethod,
                         itemsPrice: now.items[0].price,
-                        taxPrice: now.taxPrice || 0,
+                        taxPrice: tax,
                         totalPrice: now.items[0].price*now.items[0].quantity,
                     }
                     : {

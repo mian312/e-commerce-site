@@ -24,7 +24,9 @@ const initialState = {
         paymentMethod: localStorage.getItem('paymentMethod')
             ? localStorage.getItem('paymentMethod')
             : '',
-        items: JSON.parse(localStorage.getItem('buyNow'))
+        items: localStorage.getItem('buyNow')
+            ? JSON.parse(localStorage.getItem('buyNow'))
+            : [],
     },
 };
 function reducer(state, action) {

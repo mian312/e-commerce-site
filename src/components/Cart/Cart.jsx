@@ -11,6 +11,7 @@ function Cart() {
   } = state;
 
   const checkOutHandler = () => {
+    localStorage.getItem('buyNow') && localStorage.removeItem('buyNow');
     navigate('/login?redirect=/shipping/0');
   }
 
