@@ -2,10 +2,11 @@ import React, { useContext, useState } from 'react';
 import getProduct from '../../../Data/Product';
 import axios from 'axios';
 import { Store } from '../../../Store';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CartProduct({ item }) {
   const { dispatch: ctxDispatch } = useContext(Store);
-  // const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const removeItemHandler = (item) => {
     ctxDispatch({
@@ -30,6 +31,7 @@ function CartProduct({ item }) {
     <div className="d-flex align-items-center mb-5">
       <div className="flex-shrink-0">
         <img
+          onClick={() => navigate(`/product/${item._id}`)}
           src={item.thumbnail}
           className="img-fluid"
           style={{ width: '20vh' }}
@@ -42,7 +44,9 @@ function CartProduct({ item }) {
         >
           <i className="bi bi-trash"></i>
         </button>
-        <h5 className="text-primary">{item.title}</h5>
+        <Link className='link-underline-light' to={`/product/${item._id}`}>
+          <h5 className="text-primary">{item.title}</h5>
+        </Link>
         <div className="d-flex align-items-center">
           <p className="fw-bold mb-0 me-5 pe-3">{totalPrice}$</p>
           {item.stock !== 0 ? (
