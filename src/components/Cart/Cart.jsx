@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Store } from '../../Store';
 import CartProduct from './CartComponent/CartProduct';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +22,6 @@ function Cart() {
         {cartItems.length === 0 &&
           <div className='text-center fw-bold text-danger lh-lg'>Add Items to cart</div>}
         {cartItems.map((item, index) => (
-          // <h1 key={index}>{item.title}</h1>
           <CartProduct key={index} item={item} />
         ))}
       </div>

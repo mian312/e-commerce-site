@@ -1,4 +1,5 @@
 import React, { useContext, useReducer, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../../Store';
 import axios from 'axios';

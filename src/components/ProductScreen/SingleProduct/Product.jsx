@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import getProduct from '../../../Data/Product';
 import { useNavigate, useParams } from 'react-router-dom'
 import ProductImages from './ProductComponent/ProductImages';

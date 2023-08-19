@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Store } from '../../Store';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -84,7 +84,7 @@ export default function Login() {
                 >Submit</button>
               </div>
             </form>
-            <Link className="d-flex justify-content-center p-2">Forgot Password</Link>
+            {/* <Link className="d-flex justify-content-center p-2">Forgot Password</Link> */}
           </div>
         </div>
         <span className="m-4 p-4">Don't have an account? <Link to={`/signup?redirect=${redirect}`}>Register</Link> now.</span>

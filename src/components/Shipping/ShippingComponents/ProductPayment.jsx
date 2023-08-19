@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../../../Store';
 import { Helmet } from 'react-helmet-async';

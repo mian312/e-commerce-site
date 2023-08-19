@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { useNavigate } from 'react-router-dom';
 import StarRating from '../../StarRating';
 import { Store } from '../../../Store';

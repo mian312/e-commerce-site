@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link, useNavigate } from 'react-router-dom';
 import '../../../index.css';
 import { Helmet } from 'react-helmet-async';

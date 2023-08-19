@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 function ProductImages({ Images }) {
     const [pictures, setPictures] = useState([])

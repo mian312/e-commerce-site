@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import getProduct from '../../../Data/Product';
-import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Store } from '../../../Store';
 import { Link, useNavigate } from 'react-router-dom';
 

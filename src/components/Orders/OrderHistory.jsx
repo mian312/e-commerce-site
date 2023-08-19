@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Store } from '../../Store';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';

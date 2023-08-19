@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import { Stepper } from 'react-form-stepper';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Store } from '../../Store';

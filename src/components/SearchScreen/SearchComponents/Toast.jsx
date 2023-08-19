@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const Toast = ({ message }) => {
     const toastRef = useRef(null);

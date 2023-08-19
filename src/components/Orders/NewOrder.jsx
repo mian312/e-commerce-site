@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Loader from '../Loader'
 import { Store } from '../../Store';
 import { useNavigate, useParams } from 'react-router-dom';

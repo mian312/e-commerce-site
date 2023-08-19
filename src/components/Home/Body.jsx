@@ -3,7 +3,7 @@ import Deals from './Deals'
 import ProductGroup from '../ProductScreen/MultipleProduct/ProductGroup';
 import Footer from './Footer';
 import Loader from '../Loader';
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import BasicData from '../../Data/BasicData';
 import { Helmet } from 'react-helmet-async';
 
