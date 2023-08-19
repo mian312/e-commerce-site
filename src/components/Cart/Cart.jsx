@@ -26,7 +26,7 @@ function Cart() {
         ))}
       </div>
       <hr />
-      <div className='sticky-bottom d-flex justify-content-evenly bg-translucent p-2' style={{ zIndex: '999' }}>
+      <div className='sticky-bottom d-flex justify-content-evenly bg-translucent p-2' style={{ zIndex: '999', backgroundColor: 'snow' }}>
         <h3 className='mx-4'>
           Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)} {'  '} items) : $
           {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}

@@ -9,24 +9,24 @@ const prices = [
         value: 'all',
     },
     {
-        name: '$1 to $50',
-        value: '1-50',
+        name: '< $50',
+        value: '0-50',
     },
     {
-        name: '$51 to $200',
-        value: '51-200',
+        name: '< $200',
+        value: '0-200',
     },
     {
-        name: '$201 to $1000',
-        value: '201-1000',
+        name: '< $1000',
+        value: '0-1000',
     },
     {
-        name: '$1001 to $2000',
-        value: '1001-2000',
+        name: '< $2000',
+        value: '0-2000',
     },
     {
-        name: '$2001 to $5000',
-        value: '2001-5000',
+        name: '< $5000',
+        value: '0-5000',
     },
 ];
 
@@ -107,65 +107,18 @@ function Filter() {
                     </div>
 
                     <h4 className='row'>
-                        <div className='col'>
+                        <div className='col my-auto'>
                             {ratings.map((r) => (
-                                <li className="d-flex" key={r.name}>
-                                    <Link to={getFilterUrl({ rating: r.rating })} className={`link-underline-light d-flex`}>
+                                <li className="d-flex fs-5" key={r.name}>
+                                    <Link to={getFilterUrl({ rating: r.rating })} className={`link-underline-light d-inline-flex`}>
                                         <StarRating value={r.rating} editable={false} /> &nbsp; {r.name}
                                     </Link>
                                 </li>
                             ))}
-
-
-                            {/* <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='5'
-                                    onChange={(e) => {
-                                        navigate(getFilterUrl({ rating: e.target.value }))
-                                    }} />
-                                <label class="form-check-label d-flex" for="flexRadioDefault1">
-                                    <StarRating value={5} editable={false} /> &nbsp;
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='4'
-                                    onChange={(e) => {
-                                        navigate(getFilterUrl({ rating: e.target.value }))
-                                    }} />
-                                <label class="form-check-label d-flex" for="flexRadioDefault1">
-                                    <StarRating value={4} editable={false} /> &nbsp; & up
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='3'
-                                    onChange={(e) => {
-                                        navigate(getFilterUrl({ rating: e.target.value }))
-                                    }} />
-                                <label class="form-check-label d-flex" for="flexRadioDefault1">
-                                    <StarRating value={3} editable={false} /> &nbsp; & up
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='2'
-                                    onChange={(e) => {
-                                        navigate(getFilterUrl({ rating: e.target.value }))
-                                    }} />
-                                <label class="form-check-label d-flex" for="flexRadioDefault1">
-                                    <StarRating value={2} editable={false} /> &nbsp; & up
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='1'
-                                    onChange={(e) => {
-                                        navigate(getFilterUrl({ rating: e.target.value }))
-                                    }} />
-                                <label class="form-check-label d-flex" for="flexRadioDefault1">
-                                    <StarRating value={1} editable={false} /> &nbsp; & up
-                                </label>
-                            </div> */}
                         </div>
-                        <div className="col">
+                        <div className="col my-auto">
                             {prices.map((p) => (
-                                <li key={p.value}>
+                                <li className='fs-5' key={p.value}>
                                     <Link
                                         to={getFilterUrl({ price: p.value })}
                                         className={`p.value === price ? 'text-bold' : '' link-underline-light`}

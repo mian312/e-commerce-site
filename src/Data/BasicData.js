@@ -9,7 +9,7 @@ async function BasicData() {
 
     // Group products by category
     const productsByCategory = {};
-    products.forEach(product => {
+    products.slice(0, 45).forEach(product => {
       const category = product.category;
       if (!productsByCategory[category]) {
         productsByCategory[category] = product;
