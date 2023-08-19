@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
@@ -9,10 +9,8 @@ import { ToastContainer } from 'react-toastify';
 
 
 function Navbar() {
-    const [showPopup, setShowPopup] = useState(false);
     const [query, setQuery] = useState('');
     const [user, setUser] = useState([]);
-    const formRef = useRef(null);
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
@@ -24,7 +22,6 @@ function Navbar() {
     const handleSearchClick = (event) => {
         event.preventDefault();
         navigate(`/search?query=${query}`)
-        setShowPopup(false);
     };
 
     const logoutHandler = () => {
@@ -34,17 +31,16 @@ function Navbar() {
         localStorage.removeItem('paymentMethod');
     }
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (formRef.current && !formRef.current.contains(event.target)) {
-                setShowPopup(!showPopup);
-            }
-        };
-        document.addEventListener('click', handleClickOutside);
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
-    }, []);
+    //     const handleClickOutside = (event) => {
+    //         if (formRef.current && !formRef.current.contains(event.target)) {
+    //             setShowPopup(!showPopup);
+    //         }
+    //     };
+    //     document.addEventListener('click', handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener('click', handleClickOutside);
+    //     };
+    // }, []);
 
     // const [user, setUser] = useState([]);
     useEffect(() => {
@@ -66,11 +62,8 @@ function Navbar() {
                             aria-label="Search"
                             onChange={(event) => {
                                 handleInputChange(event);
-                                setShowPopup(true);
                             }}
-                            // onClick={handleSearchClick}
                             data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" />
-                        {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
                     </form>
                     <button className="navbar-toggler navbar-brand my-2 position-absolute top-0 end-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
@@ -109,14 +102,6 @@ function Navbar() {
                     </ul>
                 </div>
             </nav>
-            {showPopup && (
-                <div className="card card-body" style={{ position: 'absolute', zIndex: 9999, left: '25%', right: '25%' }}>
-                    <p>{query}</p>
-                </div>
-            )}
-
-
-
 
             {
                 <div className="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style={{ width: '120vh' }}>

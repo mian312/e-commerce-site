@@ -34,6 +34,7 @@ function Cart() {
         <button
           type="Button"
           className=" btn btn-primary "
+          data-bs-dismiss="offcanvas" aria-label="Close"
           disabled={cartItems.length === 0}
           onClick={checkOutHandler}
         >
