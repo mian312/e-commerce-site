@@ -33,7 +33,7 @@ function EditProfile() {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        'http://localhost:5000/api/users/profile',
+        '/api/users/profile',
         {
           name,
           email,

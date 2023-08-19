@@ -42,7 +42,7 @@ function Confirmation({ items }) {
         try {
             dispatch({ type: 'CREATE_REQUEST' });
             const { data } = await axios.post(
-                'http://localhost:5000/api/order',
+                '/api/order',
                 localStorage.getItem('buyNow')
                     ? {
                         orderItems: now.items,

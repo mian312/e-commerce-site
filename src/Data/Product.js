@@ -1,6 +1,6 @@
 async function getProduct(productId) {
   try {
-    const url = `http://localhost:5000/api/products/${productId}`
+    const url = `/api/products/${productId}`
 
     const response = await fetch(url);
     console.log(url)
