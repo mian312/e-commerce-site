@@ -3,7 +3,7 @@ This is an dummy fullStack E-Commerce web-app built with the MERN stack technolo
 
 # About
 This is an full-stack E-Commerce website made using React as frontend, MongoDB as database, and Express and Node as backend. 
-This app has the following features:
+*This app has the following features:
     * Responsive UI
     * User authentication using email
     * A collection of total 100 products
