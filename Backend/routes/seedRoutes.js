@@ -8,12 +8,12 @@ const seedRouter = express.Router();
 seedRouter.get('/', async (req, res) => {
   try {
     // Remove existing products
-    await Product.updateMany({})
+    await Product.deleteMany();
     // Insert new products
     const createdProducts = await Product.insertMany(data.products);
 
     // Remove existing users
-    await User.updateMany({});
+    await User.deleteMany();
     // Insert new users
     const createdUsers = await User.insertMany(data.users);
 
