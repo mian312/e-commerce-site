@@ -7,7 +7,8 @@
     "dev": "concurrently \"vite\" \"cd backend && nodemon index.js \"",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "setup": "npm i && cd ./Backend && npm i"
   },
   "dependencies": {
     "axios": "^1.4.0",
