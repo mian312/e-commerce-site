@@ -8,6 +8,7 @@ import StarRating from '../../StarRating';
 import { Helmet } from 'react-helmet-async';
 import Loader from '../../Loader';
 import { Store } from '../../../Store';
+import { toast } from 'react-toastify';
 
 function Product() {
   const params = useParams();
@@ -42,7 +43,7 @@ function Product() {
         setProduct(fetchedProduct);
         setLoading(false);
       } catch (error) {
-        console.error('Error:', error);
+        toast.error(error)
         setLoading(false);
       }
     }
@@ -51,11 +52,11 @@ function Product() {
   }, [productId, setProduct]);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart } = state;
+  const { cart, now } = state;
   const addToCartHandler = async () => {
-    const existItem = cart.cartItems.find((x) => x._id === product._id)
-    const quantity = existItem ? existItem.quantity + 1 : 1
-    const { data } = await getProduct(product._id)
+    // const existItem = cart.cartItems.find((x) => x._id === product._id)
+    // const quantity = existItem ? existItem.quantity + 1 : 1
+    // const { data } = await getProduct(product._id)
     // if (data.stock < quantity) {
     //   alert('Product is out of stock');
     //   return;
@@ -65,8 +66,8 @@ function Product() {
   }
 
   const buyNowProduct = () => {
+    ctxDispatch({ type: 'BUY_NOW', payload: { ...product, quantity: productQuantity } })
     navigate('/shipping/0')
-    localStorage.setItem('buyNow', JSON.stringify([{...product, quantity: productQuantity}]))
   }
 
   const inc = () => {

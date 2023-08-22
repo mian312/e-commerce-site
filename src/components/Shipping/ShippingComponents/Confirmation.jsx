@@ -45,12 +45,12 @@ function Confirmation({ items }) {
                 '/api/order',
                 localStorage.getItem('buyNow')
                     ? {
-                        orderItems: now.items,
+                        orderItems: now.item,
                         shippingAddress: now.shippingAddress,
                         paymentMethod: now.paymentMethod,
-                        itemsPrice: now.items[0].price,
+                        itemsPrice: now.item[0].price,
                         taxPrice: tax,
-                        totalPrice: now.items[0].price*now.items[0].quantity,
+                        totalPrice: now.item[0].price * now.item[0].quantity,
                     }
                     : {
                         orderItems: cart.cartItems,
@@ -66,17 +66,15 @@ function Confirmation({ items }) {
                     },
                 }
             );
-            ctxDispatch({ type: 'CART_CLEAR' });
             dispatch({ type: 'CREATE_SUCCESS' })
             localStorage.getItem('buyNow')
-                ? localStorage.removeItem('buyNow')
-                : localStorage.removeItem('cartItems')
+                ? ctxDispatch({ type: 'CLEAR_NOW' }) && localStorage.removeItem('buyNow')
+                : ctxDispatch({ type: 'CART_CLEAR' }) && localStorage.removeItem('cartItems')
             navigate(`/order/${data.order._id}`)
         } catch (error) {
             dispatch({ type: 'CREATE_FAIL' })
             toast.error(getError(error))
         }
-        // navigate('/order/1');
     }
 
     useEffect(() => {

@@ -17,7 +17,7 @@ export default function Login() {
 
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get('redirect');
-  const redirect = redirectInUrl ? redirectInUrl : "/";
+  const redirect = redirectInUrl ? redirectInUrl : "/signup";
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);

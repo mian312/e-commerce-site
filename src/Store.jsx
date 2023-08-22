@@ -24,7 +24,7 @@ const initialState = {
         paymentMethod: localStorage.getItem('paymentMethod')
             ? localStorage.getItem('paymentMethod')
             : '',
-        items: localStorage.getItem('buyNow')
+        item: localStorage.getItem('buyNow')
             ? JSON.parse(localStorage.getItem('buyNow'))
             : [],
     },
@@ -42,6 +42,14 @@ function reducer(state, action) {
             return { ...state, cart: { ...state.cart, cartItems } }
         };
 
+        case 'BUY_NOW' : {
+            const item = action.payload;
+            const recentItem = [ item ]
+            localStorage.setItem('buyNow', JSON.stringify(recentItem));
+            // JSON.stringify([{...product, quantity: productQuantity}])
+            return { ...state, now: { ...state.now, recentItem }}
+        }
+
         case 'CART_REMOVE_ITEM': {
             const cartItems = state.cart.cartItems.filter(
                 (item) => item._id !== action.payload._id
@@ -52,6 +60,9 @@ function reducer(state, action) {
 
         case 'CART_CLEAR':
             return { ...state, cart: { ...state.cart, cartItems: [] } }
+
+        case 'CLEAR_NOW':
+            return { ...state, cart: { ...state.now, item: [] } }
 
         case 'USER_LOGIN': {
             return { ...state, userInfo: action.payload };
@@ -66,6 +77,11 @@ function reducer(state, action) {
                     shippingAddress: {},
                     paymentMethod: '',
                 },
+                now: {
+                    item: [],
+                    shippingAddress: {},
+                    paymentMethod: '',
+                },
             };;
         };
 
@@ -76,12 +92,17 @@ function reducer(state, action) {
                     ...state.cart,
                     shippingAddress: action.payload,
                 },
+                now: {
+                    ...state.now,
+                    shippingAddress: action.payload,
+                },
             };
 
         case 'SAVE_PAYMENT_METHOD':
             return {
                 ...state,
                 cart: { ...state.cart, paymentMethod: action.payload },
+                now: { ...state.now, paymentMethod: action.payload },
             };
 
         default:
