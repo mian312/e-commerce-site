@@ -38,28 +38,34 @@ function Confirmation({ items }) {
     cart.taxPrice = round2(0.15 * cart.itemsPrice);
     cart.totalPrice = cart.itemsPrice + cart.taxPrice;
 
+
+    now.itemsPrice = round2(
+        now.item.reduce((a, c) => a + c.quantity * c.price, 0)
+    );
+    now.taxPrice = round2(0.15 * now.itemsPrice);
+    now.totalPrice = now.itemsPrice + now.taxPrice;
+
+
     const placeOrderHandler = async () => {
         try {
             dispatch({ type: 'CREATE_REQUEST' });
             const { data } = await axios.post(
                 '/api/order',
-                localStorage.getItem('buyNow')
-                    ? {
-                        orderItems: now.item,
-                        shippingAddress: now.shippingAddress,
-                        paymentMethod: now.paymentMethod,
-                        itemsPrice: now.item[0].price,
-                        taxPrice: tax,
-                        totalPrice: now.item[0].price * now.item[0].quantity,
-                    }
-                    : {
-                        orderItems: cart.cartItems,
-                        shippingAddress: cart.shippingAddress,
-                        paymentMethod: cart.paymentMethod,
-                        itemsPrice: cart.itemsPrice,
-                        taxPrice: cart.taxPrice,
-                        totalPrice: cart.totalPrice,
-                    },
+                localStorage.getItem('buyNow') ? {
+                    orderItems: now.item,
+                    shippingAddress: now.shippingAddress,
+                    paymentMethod: now.paymentMethod,
+                    itemsPrice: now.itemsPrice,
+                    taxPrice: now.taxPrice,
+                    totalPrice: now.totalPrice,
+                } : {
+                    orderItems: cart.cartItems,
+                    shippingAddress: cart.shippingAddress,
+                    paymentMethod: cart.paymentMethod,
+                    itemsPrice: cart.itemsPrice,
+                    taxPrice: cart.taxPrice,
+                    totalPrice: cart.totalPrice,
+                },
                 {
                     headers: {
                         authorization: `Bearer ${userInfo.token}`,
@@ -67,9 +73,13 @@ function Confirmation({ items }) {
                 }
             );
             dispatch({ type: 'CREATE_SUCCESS' })
-            localStorage.getItem('buyNow')
-                ? ctxDispatch({ type: 'CLEAR_NOW' }) && localStorage.removeItem('buyNow')
-                : ctxDispatch({ type: 'CART_CLEAR' }) && localStorage.removeItem('cartItems')
+            if (localStorage.getItem('buyNow')) {
+                ctxDispatch({ type: 'CLEAR_NOW' });
+                localStorage.removeItem('buyNow');
+            } else {
+                ctxDispatch({ type: 'CART_CLEAR' });
+                localStorage.removeItem('cartItems');
+            }
             navigate(`/order/${data.order._id}`)
         } catch (error) {
             dispatch({ type: 'CREATE_FAIL' })
@@ -79,7 +89,7 @@ function Confirmation({ items }) {
 
     useEffect(() => {
         localStorage.getItem('buyNow')
-            ? setTax(0)
+            ? setTax(now.taxPrice)
             : setTax(cart.taxPrice)
         if (!cart.paymentMethod) {
             navigate('/shipping/1')

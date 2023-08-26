@@ -44,10 +44,8 @@ function reducer(state, action) {
 
         case 'BUY_NOW' : {
             const item = action.payload;
-            const recentItem = [ item ]
-            localStorage.setItem('buyNow', JSON.stringify(recentItem));
-            // JSON.stringify([{...product, quantity: productQuantity}])
-            return { ...state, now: { ...state.now, recentItem }}
+            localStorage.setItem('buyNow', JSON.stringify([item]));
+            return { ...state, now: { ...state.now, item: [item] }}
         }
 
         case 'CART_REMOVE_ITEM': {
@@ -62,7 +60,7 @@ function reducer(state, action) {
             return { ...state, cart: { ...state.cart, cartItems: [] } }
 
         case 'CLEAR_NOW':
-            return { ...state, cart: { ...state.now, item: [] } }
+            return { ...state, now: { ...state.now, item: [] } }
 
         case 'USER_LOGIN': {
             return { ...state, userInfo: action.payload };

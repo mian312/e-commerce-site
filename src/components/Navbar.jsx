@@ -31,18 +31,6 @@ function Navbar() {
         localStorage.removeItem('paymentMethod');
     }
 
-    //     const handleClickOutside = (event) => {
-    //         if (formRef.current && !formRef.current.contains(event.target)) {
-    //             setShowPopup(!showPopup);
-    //         }
-    //     };
-    //     document.addEventListener('click', handleClickOutside);
-    //     return () => {
-    //         document.removeEventListener('click', handleClickOutside);
-    //     };
-    // }, []);
-
-    // const [user, setUser] = useState([]);
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('userInfo'))
         setUser(user)
@@ -52,7 +40,7 @@ function Navbar() {
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary sticky-top">
-                <ToastContainer position='top-center' limit={1}/>
+                <ToastContainer position='top-center' limit={1} />
                 <div className="container">
                     <Link className="navbar-brand fs-3" to='/'>E-Commerce</Link>
                     <form className="container d-flex" role="search" onSubmit={handleSearchClick}>
@@ -75,7 +63,7 @@ function Navbar() {
                             {user ? (
 
                                 <Link className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {userInfo?.name || user?.name}
+                                    {user?.name}
                                 </Link>
                             ) : (
                                 <Link className="nav-link" to='/login'>
@@ -90,11 +78,11 @@ function Navbar() {
                             </ul>
                         </li>
                         <li className="nav-item px-4"
-                            type="button" data-bs-toggle="offcanvas" 
+                            type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" >
                             <li className="nav-link position-relative">
                                 <i className="bi bi-cart4" ></i> Cart
-                                {cart.cartItems.length > 0 && (
+                                {cart?.cartItems?.length > 0 && (
                                     <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger my-2">{cart.cartItems.length}</span>
                                 )}
                             </li>
