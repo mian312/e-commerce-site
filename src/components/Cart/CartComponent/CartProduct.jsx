@@ -22,7 +22,7 @@ function CartProduct({ item }) {
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity }
     });
-    console.log("Item quantity", item.quantity);
+    //console.log("Item quantity", item.quantity);
   };
 
   const totalPrice = item.price * item.quantity;

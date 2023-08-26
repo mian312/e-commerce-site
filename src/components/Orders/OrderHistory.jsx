@@ -48,7 +48,7 @@ function OrderHistory() {
     fetchData();
   }, [userInfo]);
 
-  console.log(orders)
+  //console.log(orders)
   return (
     <div className='table-wrap'>
       <Helmet><title>Order History</title></Helmet>

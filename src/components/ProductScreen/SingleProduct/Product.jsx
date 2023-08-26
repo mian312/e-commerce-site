@@ -35,7 +35,7 @@ function Product() {
 
 
   useEffect(() => {
-    console.log(productId);
+    //console.log(productId);
     async function showProduct() {
       try {
         setLoading(true);

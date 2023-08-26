@@ -58,7 +58,7 @@ function NewOrder() {
         }
 
     }, [order, userInfo, orderId, navigate])
-    console.log(order.orderItems)
+    //console.log(order.orderItems)
 
     return loading ? (
         <div className="col-md-12 text-center">

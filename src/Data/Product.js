@@ -3,7 +3,7 @@ async function getProduct(productId) {
     const url = `/api/products/${productId}`
 
     const response = await fetch(url);
-    console.log(url)
+    //console.log(url)
 
 
     if (!response.ok) {

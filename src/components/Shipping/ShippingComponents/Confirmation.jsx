@@ -94,8 +94,8 @@ function Confirmation({ items }) {
         if (!cart.paymentMethod) {
             navigate('/shipping/1')
         }
-        console.log("now\n", now)
-        console.log("cart\n", cart)
+        //console.log("now\n", now)
+        //console.log("cart\n", cart)
     })
     return (
         <div className="container">

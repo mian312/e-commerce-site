@@ -46,8 +46,8 @@ function ShippingDetails({ user }) {
       toast.error('Please fill in all the required fields');
     }
   
-    console.log("delivery", delivery);
-    console.log("shipping details", shippingAddress);
+    //console.log("delivery", delivery);
+    //console.log("shipping details", shippingAddress);
   };
   
 

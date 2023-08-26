@@ -66,7 +66,7 @@ function Search() {
       }
     };
     fetchData();
-    console.log(products)
+    //console.log(products)
   }, [brand, error, order, page, price, query, rating]);
 
   const getFilterUrl = (filter) => {
